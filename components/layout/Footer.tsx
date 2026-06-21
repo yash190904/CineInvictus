@@ -68,7 +68,7 @@ export default function Footer() {
         aria-hidden="true"
         className="select-none overflow-hidden px-6 pb-2 text-center leading-none [mask-image:linear-gradient(to_top,white,transparent_85%)] [-webkit-mask-image:linear-gradient(to_top,white,transparent_85%)]"
       >
-        <span className="font-display text-[10vw] font-semibold text-[var(--color-footer-mark)] sm:text-[12vw] md:text-[14vw]">
+        <span className="font-display text-[12vw] font-semibold text-[var(--color-footer-mark)] sm:text-[13vw] md:text-[15vw]">
           CineInvictus
         </span>
       </div>
