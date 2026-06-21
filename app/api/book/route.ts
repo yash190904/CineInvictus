@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createBooking } from "@/lib/bookings-db";
+import { sendNotification } from "@/lib/email";
 
 // Persists the booking so the slot can't be taken twice (see
-// lib/bookings-db.ts). To actually notify yourself of new bookings,
-// wire up an email provider here the same way as app/api/contact/route.ts.
+// lib/bookings-db.ts), then emails the owner (see lib/email.ts).
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -29,6 +29,11 @@ export async function POST(req: NextRequest) {
     }
 
     console.log("New booking:", { date, time, name, email, notes });
+
+    await sendNotification(
+      `New booking: ${date} ${time}`,
+      `${name} (${email}) booked a call for ${date} at ${time}.\n\n${notes ? `Notes: ${notes}` : ""}`
+    );
 
     return NextResponse.json({ ok: true });
   } catch {
