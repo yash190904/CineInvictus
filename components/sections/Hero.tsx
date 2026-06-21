@@ -70,8 +70,9 @@ function HeroBackground() {
   const [particles, setParticles] = useState<Particle[]>([]);
 
   useEffect(() => {
+    const count = window.innerWidth < 768 ? Math.round(particleCount / 2) : particleCount;
     setParticles(
-      Array.from({ length: particleCount }).map((_, i) => ({
+      Array.from({ length: count }).map((_, i) => ({
         id: i,
         top: Math.random() * 100,
         left: Math.random() * 100,
@@ -103,30 +104,37 @@ function HeroBackground() {
         transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {!shouldReduceMotion &&
-        particles.map((p) => (
-          <motion.span
-            key={p.id}
-            className="absolute rounded-full bg-[var(--color-ink-faint)]"
-            style={{
-              top: `${p.top}%`,
-              left: `${p.left}%`,
-              width: p.size,
-              height: p.size,
-            }}
-            animate={{
-              y: [0, -42, 0],
-              x: [0, p.id % 2 === 0 ? 16 : -16, 0],
-              opacity: [0.15, 0.7, 0.15],
-            }}
-            transition={{
-              duration: p.duration,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: p.delay,
-            }}
-          />
-        ))}
+      {!shouldReduceMotion && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          {particles.map((p) => (
+            <motion.span
+              key={p.id}
+              className="absolute rounded-full bg-[var(--color-ink-faint)]"
+              style={{
+                top: `${p.top}%`,
+                left: `${p.left}%`,
+                width: p.size,
+                height: p.size,
+              }}
+              animate={{
+                y: [0, -42, 0],
+                x: [0, p.id % 2 === 0 ? 16 : -16, 0],
+                opacity: [0.15, 0.7, 0.15],
+              }}
+              transition={{
+                duration: p.duration,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: p.delay,
+              }}
+            />
+          ))}
+        </motion.div>
+      )}
     </div>
   );
 }
