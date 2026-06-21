@@ -24,3 +24,20 @@ export async function sendNotification(subject: string, text: string) {
     console.error("[email] Failed to send notification:", err);
   }
 }
+
+// Emails an arbitrary recipient (e.g. the client who just booked) —
+// this requires a verified domain on resend.com, since the sandbox
+// "onboarding@resend.dev" sender can only reach your own account
+// email. Fails silently (logged, not thrown) so a confirmation-email
+// hiccup never blocks the booking/contact flow itself.
+export async function sendConfirmation(to: string, subject: string, text: string) {
+  if (!resend) {
+    console.warn("[email] RESEND_API_KEY not set — skipping confirmation email.");
+    return;
+  }
+  try {
+    await resend.emails.send({ from: fromAddress, to, subject, text });
+  } catch (err) {
+    console.error("[email] Failed to send confirmation:", err);
+  }
+}

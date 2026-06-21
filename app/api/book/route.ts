@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createBooking } from "@/lib/bookings-db";
-import { sendNotification } from "@/lib/email";
+import { sendNotification, sendConfirmation } from "@/lib/email";
+import { bookingConfig } from "@/data/booking";
 
 // Persists the booking so the slot can't be taken twice (see
-// lib/bookings-db.ts), then emails the owner (see lib/email.ts).
+// lib/bookings-db.ts), then emails the owner and the client (see
+// lib/email.ts).
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -33,6 +35,12 @@ export async function POST(req: NextRequest) {
     await sendNotification(
       `New booking: ${date} ${time}`,
       `${name} (${email}) booked a call for ${date} at ${time}.\n\n${notes ? `Notes: ${notes}` : ""}`
+    );
+
+    await sendConfirmation(
+      email,
+      "You're booked — Cine Invictus",
+      `Hi ${name},\n\nYour ${bookingConfig.meetingLength} is confirmed for ${date} at ${time} ${bookingConfig.timezoneLabel}.\n\nLooking forward to it — see you then!\n\n— Cine Invictus`
     );
 
     return NextResponse.json({ ok: true });
