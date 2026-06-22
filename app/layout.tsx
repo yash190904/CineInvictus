@@ -4,7 +4,7 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { site } from "@/data/site";
-import { getPersonSchema } from "@/lib/structured-data";
+import { getPersonSchema, getOrganizationSchema } from "@/lib/structured-data";
 
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -20,27 +20,31 @@ export const metadata: Metadata = {
   },
   description: site.description,
   keywords: [
+    "Cine Invictus",
     "video editor",
+    "YouTube video editor",
+    "freelance video editor",
     "YouTube video editing",
     "short form editing",
     "long form editing",
     "cinematic video editing",
     "content repurposing",
   ],
-  authors: [{ name: site.founder }],
+  authors: [{ name: site.founder, url: site.url }],
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
     url: site.url,
     title: site.name,
     description: site.description,
     siteName: site.name,
-    images: [{ url: site.ogImage, width: 1200, height: 630, alt: site.name }],
   },
   twitter: {
     card: "summary_large_image",
     title: site.name,
     description: site.description,
-    images: [site.ogImage],
   },
   robots: {
     index: true,
@@ -56,6 +60,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: JSON.stringify(getPersonSchema()) }}
+        />
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(getOrganizationSchema()) }}
         />
         <Header />
         <main>{children}</main>

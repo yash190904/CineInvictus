@@ -10,7 +10,6 @@ export const site = {
   url: "https://cineinvictus.com",
   email: "hello.yash8888@gmail.com",
   founder: "Yashraj",
-  ogImage: "/og-image.jpg", // replace with your own 1200x630 image in /public
 };
 
 export const socials = [

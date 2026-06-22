@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   title: "Projects & Portfolio",
   description:
     "A selection of long-form and short-form video edits delivered for YouTubers, vloggers, and creative teams — from talking-head videos to viral Shorts.",
+  alternates: {
+    canonical: "/projects",
+  },
 };
 
 export default function ProjectsPage() {

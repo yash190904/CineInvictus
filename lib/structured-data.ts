@@ -19,6 +19,22 @@ export function getPersonSchema() {
   };
 }
 
+export function getOrganizationSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: site.name,
+    url: site.url,
+    logo: `${site.url}/icon.png`,
+    email: site.email,
+    founder: {
+      "@type": "Person",
+      name: site.founder,
+    },
+    sameAs: ["https://www.instagram.com/clicksofyash/", "https://x.com/ChudasamaY1909"],
+  };
+}
+
 export function getServiceSchema() {
   return {
     "@context": "https://schema.org",

@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   title: "Contact",
   description:
     "Book a 15-minute intro call or send a message to start your next video editing project with Cine Invictus.",
+  alternates: {
+    canonical: "/contact",
+  },
 };
 
 export default function ContactPage() {
