@@ -8,7 +8,7 @@ import { caseStudies } from "@/data/case-studies";
 export const metadata: Metadata = {
   title: "Case Studies",
   description:
-    "How Cine Invictus approaches real client edits — from garage vlogs to science documentaries — and what changed as a result.",
+    "How Cine Invictus approaches real client edits, from garage vlogs to science documentaries, and what changed as a result.",
   alternates: {
     canonical: "/case-studies",
   },
@@ -24,7 +24,7 @@ export default function CaseStudiesPage() {
             Real Edits, Real Process
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-center text-[var(--color-ink-muted)]">
-            A closer look at how specific videos came together — the challenge, the
+            A closer look at how specific videos came together: the challenge, the
             editing decisions, and what clients said afterward.
           </p>
         </AnimatedSection>
