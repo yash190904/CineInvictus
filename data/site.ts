@@ -21,6 +21,7 @@ export const navLinks = [
   { label: "Services", href: "/#services" },
   { label: "Process", href: "/#process" },
   { label: "Works", href: "/projects" },
+  { label: "Case Studies", href: "/case-studies" },
   { label: "Reviews", href: "/#reviews" },
   { label: "Pricing", href: "/#pricing" },
   { label: "FAQ", href: "/#faq" },
@@ -30,6 +31,7 @@ export const footerLinks = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/#services" },
   { label: "Works", href: "/projects" },
+  { label: "Case Studies", href: "/case-studies" },
   { label: "Reviews", href: "/#reviews" },
   { label: "FAQ", href: "/#faq" },
 ];
