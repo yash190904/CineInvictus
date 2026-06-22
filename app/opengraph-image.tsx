@@ -1,9 +1,14 @@
 import { ImageResponse } from "next/og";
+import fs from "node:fs";
+import path from "node:path";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default async function Image() {
+  const logoBuffer = fs.readFileSync(path.join(process.cwd(), "public", "Rounded.png"));
+  const logoSrc = `data:image/png;base64,${logoBuffer.toString("base64")}`;
+
   return new ImageResponse(
     (
       <div
@@ -20,22 +25,8 @@ export default async function Image() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
-          <div
-            style={{
-              width: 90,
-              height: 90,
-              borderRadius: "50%",
-              backgroundColor: "#ff6a00",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 52,
-              fontWeight: 700,
-              color: "#ffffff",
-            }}
-          >
-            C
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={logoSrc} width={90} height={90} style={{ borderRadius: "50%" }} />
           <div style={{ fontSize: 72, fontWeight: 700, color: "#f4f2ed" }}>
             Cine Invictus
           </div>
