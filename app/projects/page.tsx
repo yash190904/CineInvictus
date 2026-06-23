@@ -3,6 +3,7 @@ import AnimatedSection from "@/components/ui/AnimatedSection";
 import Eyebrow from "@/components/ui/Eyebrow";
 import VideoEmbed from "@/components/ui/VideoEmbed";
 import Button from "@/components/ui/Button";
+import WorkFillerCard from "@/components/ui/WorkFillerCard";
 import ShortsGrid from "@/components/sections/ShortsGrid";
 import { portfolioItems } from "@/data/portfolio";
 
@@ -15,7 +16,21 @@ export const metadata: Metadata = {
   },
 };
 
+const fillerCopy = [
+  {
+    title: "This Slot's Open",
+    description: "Got a channel that needs a retention-first edit? Let's fill it with your next video.",
+  },
+  {
+    title: "Your Video Could Be Here",
+    description: "Send over your footage and let's build something worth featuring.",
+  },
+];
+
 export default function ProjectsPage() {
+  const longFormItems = portfolioItems.slice(3);
+  const longFormFillers = (3 - (longFormItems.length % 3)) % 3;
+
   return (
     <div className="px-6 pt-10 pb-20 md:pt-14 md:pb-28">
       <div className="mx-auto max-w-6xl">
@@ -31,7 +46,7 @@ export default function ProjectsPage() {
         </AnimatedSection>
 
         <div className="mt-14 grid gap-10 md:grid-cols-2 lg:grid-cols-3">
-          {portfolioItems.slice(3).map((item, i) => (
+          {longFormItems.map((item, i) => (
             <AnimatedSection key={item.youtubeId} delay={i * 0.08}>
               <VideoEmbed
                 youtubeId={item.youtubeId}
@@ -44,6 +59,14 @@ export default function ProjectsPage() {
               <h3 className="mt-2 font-display text-lg text-[var(--color-ink)]">{item.title}</h3>
               <p className="mt-1 text-sm text-[var(--color-ink-muted)]">{item.description}</p>
             </AnimatedSection>
+          ))}
+          {Array.from({ length: longFormFillers }).map((_, i) => (
+            <WorkFillerCard
+              key={`long-filler-${i}`}
+              aspect="video"
+              hideBelow="lg"
+              {...fillerCopy[i % fillerCopy.length]}
+            />
           ))}
         </div>
 

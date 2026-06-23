@@ -4,7 +4,19 @@ import { useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { Play, X } from "lucide-react";
+import WorkFillerCard from "@/components/ui/WorkFillerCard";
 import { shortFormItems, type ShortFormItem } from "@/data/portfolio";
+
+const fillerCopy = [
+  {
+    title: "Space for One More",
+    description: "Got raw clips? Let's turn them into something people can't scroll past.",
+  },
+  {
+    title: "Your Short Could Be Here",
+    description: "Ready to see your content featured? Let's talk.",
+  },
+];
 
 function ShortCard({ item, onPlay }: { item: ShortFormItem; onPlay: () => void }) {
   return (
@@ -32,12 +44,21 @@ function ShortCard({ item, onPlay }: { item: ShortFormItem; onPlay: () => void }
 export default function ShortsGrid() {
   const [activeId, setActiveId] = useState<string | null>(null);
   const active = shortFormItems.find((item) => item.youtubeId === activeId);
+  const fillers = (3 - (shortFormItems.length % 3)) % 3;
 
   return (
     <>
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
         {shortFormItems.map((item) => (
           <ShortCard key={item.url} item={item} onPlay={() => setActiveId(item.youtubeId)} />
+        ))}
+        {Array.from({ length: fillers }).map((_, i) => (
+          <WorkFillerCard
+            key={`short-filler-${i}`}
+            aspect="portrait"
+            hideBelow="sm"
+            {...fillerCopy[i % fillerCopy.length]}
+          />
         ))}
       </div>
 
