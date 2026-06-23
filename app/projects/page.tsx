@@ -23,7 +23,11 @@ const fillerCopy = {
 
 export default function ProjectsPage() {
   const longFormItems = portfolioItems.slice(3);
-  const longFormNeedsFiller = longFormItems.length % 3 !== 0;
+  // Mobile is 1 column (always fills evenly, no filler needed), md is
+  // 2 columns, lg+ is 3 columns — each of the latter two needs its own
+  // even/odd check, shown only at its own breakpoint range.
+  const tabletNeedsFiller = longFormItems.length % 2 !== 0;
+  const desktopNeedsFiller = longFormItems.length % 3 !== 0;
 
   return (
     <div className="px-6 pt-10 pb-20 md:pt-14 md:pb-28">
@@ -54,7 +58,10 @@ export default function ProjectsPage() {
               <p className="mt-1 text-sm text-[var(--color-ink-muted)]">{item.description}</p>
             </AnimatedSection>
           ))}
-          {longFormNeedsFiller && (
+          {tabletNeedsFiller && (
+            <WorkFillerCard aspect="video" visibility="hidden md:flex lg:hidden" {...fillerCopy} />
+          )}
+          {desktopNeedsFiller && (
             <WorkFillerCard aspect="video" visibility="hidden lg:flex" {...fillerCopy} />
           )}
         </div>
