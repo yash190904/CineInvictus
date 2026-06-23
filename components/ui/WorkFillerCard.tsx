@@ -5,20 +5,20 @@ type WorkFillerCardProps = {
   aspect: "video" | "portrait";
   title: string;
   description: string;
-  hideBelow?: "sm" | "lg";
+  /** Tailwind display/visibility classes, e.g. "hidden lg:flex" or "flex sm:hidden" */
+  visibility?: string;
 };
 
-// Fills the trailing empty slot(s) in a 3-column grid when the item
-// count isn't a multiple of 3, turning dead grid space into a soft
-// CTA instead of an awkward half-empty last row.
+// Fills a single trailing empty slot in a grid when the item count
+// doesn't evenly divide the column count, turning dead grid space into
+// a soft CTA instead of an awkward half-empty last row. At most one of
+// these should ever be shown for a given breakpoint's column count.
 export default function WorkFillerCard({
   aspect,
   title,
   description,
-  hideBelow,
+  visibility = "flex",
 }: WorkFillerCardProps) {
-  const visibility = hideBelow === "lg" ? "hidden lg:flex" : hideBelow === "sm" ? "hidden sm:flex" : "flex";
-
   return (
     <Link
       href="/contact"

@@ -16,20 +16,14 @@ export const metadata: Metadata = {
   },
 };
 
-const fillerCopy = [
-  {
-    title: "This Slot's Open",
-    description: "Got a channel that needs a retention-first edit? Let's fill it with your next video.",
-  },
-  {
-    title: "Your Video Could Be Here",
-    description: "Send over your footage and let's build something worth featuring.",
-  },
-];
+const fillerCopy = {
+  title: "Your Video Could Be Here",
+  description: "Got a channel that needs a retention-first edit? Let's fill this slot with your next video.",
+};
 
 export default function ProjectsPage() {
   const longFormItems = portfolioItems.slice(3);
-  const longFormFillers = (3 - (longFormItems.length % 3)) % 3;
+  const longFormNeedsFiller = longFormItems.length % 3 !== 0;
 
   return (
     <div className="px-6 pt-10 pb-20 md:pt-14 md:pb-28">
@@ -60,14 +54,9 @@ export default function ProjectsPage() {
               <p className="mt-1 text-sm text-[var(--color-ink-muted)]">{item.description}</p>
             </AnimatedSection>
           ))}
-          {Array.from({ length: longFormFillers }).map((_, i) => (
-            <WorkFillerCard
-              key={`long-filler-${i}`}
-              aspect="video"
-              hideBelow="lg"
-              {...fillerCopy[i % fillerCopy.length]}
-            />
-          ))}
+          {longFormNeedsFiller && (
+            <WorkFillerCard aspect="video" visibility="hidden lg:flex" {...fillerCopy} />
+          )}
         </div>
 
         <AnimatedSection className="mt-10">

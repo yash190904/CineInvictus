@@ -7,16 +7,10 @@ import { Play, X } from "lucide-react";
 import WorkFillerCard from "@/components/ui/WorkFillerCard";
 import { shortFormItems, type ShortFormItem } from "@/data/portfolio";
 
-const fillerCopy = [
-  {
-    title: "Space for One More",
-    description: "Got raw clips? Let's turn them into something people can't scroll past.",
-  },
-  {
-    title: "Your Short Could Be Here",
-    description: "Ready to see your content featured? Let's talk.",
-  },
-];
+const fillerCopy = {
+  title: "Your Short Could Be Here",
+  description: "Got raw clips? Let's turn them into something people can't scroll past.",
+};
 
 function ShortCard({ item, onPlay }: { item: ShortFormItem; onPlay: () => void }) {
   return (
@@ -44,7 +38,11 @@ function ShortCard({ item, onPlay }: { item: ShortFormItem; onPlay: () => void }
 export default function ShortsGrid() {
   const [activeId, setActiveId] = useState<string | null>(null);
   const active = shortFormItems.find((item) => item.youtubeId === activeId);
-  const fillers = (3 - (shortFormItems.length % 3)) % 3;
+  // Mobile is 2 columns, sm+ is 3 columns — each needs its own
+  // even/odd check since the remainder differs by column count. At
+  // most one filler is ever visible at a given screen width.
+  const mobileNeedsFiller = shortFormItems.length % 2 !== 0;
+  const desktopNeedsFiller = shortFormItems.length % 3 !== 0;
 
   return (
     <>
@@ -52,14 +50,12 @@ export default function ShortsGrid() {
         {shortFormItems.map((item) => (
           <ShortCard key={item.url} item={item} onPlay={() => setActiveId(item.youtubeId)} />
         ))}
-        {Array.from({ length: fillers }).map((_, i) => (
-          <WorkFillerCard
-            key={`short-filler-${i}`}
-            aspect="portrait"
-            hideBelow="sm"
-            {...fillerCopy[i % fillerCopy.length]}
-          />
-        ))}
+        {mobileNeedsFiller && (
+          <WorkFillerCard aspect="portrait" visibility="flex sm:hidden" {...fillerCopy} />
+        )}
+        {desktopNeedsFiller && (
+          <WorkFillerCard aspect="portrait" visibility="hidden sm:flex" {...fillerCopy} />
+        )}
       </div>
 
       <AnimatePresence>
