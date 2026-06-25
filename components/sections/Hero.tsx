@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import Button from "@/components/ui/Button";
+import VideoEmbed from "@/components/ui/VideoEmbed";
 import { testimonials } from "@/data/testimonials";
+
+const featuredVideoId = "N-9cWyfPjeQ";
+const featuredVideoThumbnail = `https://i.ytimg.com/vi_webp/${featuredVideoId}/sddefault.webp`;
 
 const particleCount = 80;
 
@@ -61,6 +65,8 @@ function HighlightWord({ word }: { word: string }) {
 
 type Particle = { id: number; top: number; left: number; size: number; duration: number; delay: number };
 
+const mobileParticleCount = 20;
+
 function HeroBackground() {
   const shouldReduceMotion = useReducedMotion();
 
@@ -68,9 +74,12 @@ function HeroBackground() {
   // render would produce different values on the server vs. the client,
   // causing a hydration mismatch (and crashing the page under Turbopack).
   const [particles, setParticles] = useState<Particle[]>([]);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const count = window.innerWidth < 768 ? Math.round(particleCount / 2) : particleCount;
+    const mobile = window.innerWidth < 768;
+    setIsMobile(mobile);
+    const count = mobile ? mobileParticleCount : particleCount;
     setParticles(
       Array.from({ length: count }).map((_, i) => ({
         id: i,
@@ -83,32 +92,51 @@ function HeroBackground() {
     );
   }, []);
 
+  // On mobile, stagger the background's entrance so it doesn't compete with
+  // the headline animation for compositor time right at first paint.
+  const gradientDelay = isMobile ? 0.5 : 0;
+  const particlesDelay = isMobile ? 0.9 : 0;
+
   return (
     <div className="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
       <motion.div
         className="absolute -left-1/4 top-[-10%] h-[60%] w-[60%] rounded-full bg-[var(--color-accent)]/25 blur-[100px]"
+        initial={isMobile ? { opacity: 0 } : undefined}
         animate={
           shouldReduceMotion
             ? undefined
-            : { x: ["0%", "20%", "-10%", "0%"], y: ["0%", "15%", "-5%", "0%"] }
+            : isMobile
+              ? { opacity: 1, x: ["0%", "20%", "-10%", "0%"], y: ["0%", "15%", "-5%", "0%"] }
+              : { x: ["0%", "20%", "-10%", "0%"], y: ["0%", "15%", "-5%", "0%"] }
         }
-        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+        transition={{
+          x: { duration: 22, repeat: Infinity, ease: "easeInOut" },
+          y: { duration: 22, repeat: Infinity, ease: "easeInOut" },
+          opacity: { duration: 0.6, delay: gradientDelay },
+        }}
       />
       <motion.div
         className="absolute right-[-15%] top-[10%] h-[50%] w-[50%] rounded-full bg-[var(--color-accent-dim)]/25 blur-[100px]"
+        initial={isMobile ? { opacity: 0 } : undefined}
         animate={
           shouldReduceMotion
             ? undefined
-            : { x: ["0%", "-15%", "10%", "0%"], y: ["0%", "-10%", "10%", "0%"] }
+            : isMobile
+              ? { opacity: 1, x: ["0%", "-15%", "10%", "0%"], y: ["0%", "-10%", "10%", "0%"] }
+              : { x: ["0%", "-15%", "10%", "0%"], y: ["0%", "-10%", "10%", "0%"] }
         }
-        transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
+        transition={{
+          x: { duration: 26, repeat: Infinity, ease: "easeInOut" },
+          y: { duration: 26, repeat: Infinity, ease: "easeInOut" },
+          opacity: { duration: 0.6, delay: gradientDelay },
+        }}
       />
 
       {!shouldReduceMotion && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.6, delay: particlesDelay }}
         >
           {particles.map((p) => (
             <motion.span
@@ -265,15 +293,11 @@ export default function Hero() {
         className="mx-auto mt-16 max-w-5xl"
       >
         <div className="overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] shadow-2xl">
-          <div className="aspect-video">
-            <iframe
-              src="https://www.youtube.com/embed/N-9cWyfPjeQ"
-              title="Featured Work"
-              className="h-full w-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
+          <VideoEmbed
+            youtubeId={featuredVideoId}
+            thumbnail={featuredVideoThumbnail}
+            title="Featured Work"
+          />
         </div>
       </motion.div>
     </section>
