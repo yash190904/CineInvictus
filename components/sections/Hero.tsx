@@ -100,7 +100,11 @@ function HeroBackground() {
   return (
     <div className="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
       <motion.div
-        className="absolute -left-1/4 top-[-10%] h-[60%] w-[60%] rounded-full bg-[var(--color-accent)]/25 blur-[100px]"
+        className="absolute -left-1/4 top-[-10%] h-[60%] w-[60%] rounded-full"
+        style={{
+          background:
+            "radial-gradient(closest-side, color-mix(in srgb, var(--color-accent) 35%, transparent) 0%, transparent 70%)",
+        }}
         initial={isMobile ? { opacity: 0 } : undefined}
         animate={
           shouldReduceMotion
@@ -116,7 +120,11 @@ function HeroBackground() {
         }}
       />
       <motion.div
-        className="absolute right-[-15%] top-[10%] h-[50%] w-[50%] rounded-full bg-[var(--color-accent-dim)]/25 blur-[100px]"
+        className="absolute right-[-15%] top-[10%] h-[50%] w-[50%] rounded-full"
+        style={{
+          background:
+            "radial-gradient(closest-side, color-mix(in srgb, var(--color-accent-dim) 35%, transparent) 0%, transparent 70%)",
+        }}
         initial={isMobile ? { opacity: 0 } : undefined}
         animate={
           shouldReduceMotion
