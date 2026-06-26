@@ -19,7 +19,11 @@ function ShortCard({ item, onPlay }: { item: ShortFormItem; onPlay: () => void }
         src={item.thumbnail}
         alt={item.label}
         fill
-        sizes="240px"
+        // Card is 9:16 but the source thumbnail is 16:9 — object-cover
+        // crops to height, which needs ~1.8x the box width (240px) in
+        // source resolution, so this is intentionally larger than the box.
+        sizes="480px"
+        quality={90}
         className="object-cover transition-transform duration-500 group-hover:scale-105"
       />
       <div className="absolute inset-0 bg-black/30 transition-colors group-hover:bg-black/40" />
