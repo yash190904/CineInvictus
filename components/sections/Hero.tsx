@@ -100,10 +100,10 @@ function HeroBackground() {
   return (
     <div className="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
       <motion.div
-        className="absolute -left-1/4 top-[-10%] h-[60%] w-[60%] rounded-full"
+        className="absolute -left-1/3 top-[-20%] h-[80%] w-[80%] rounded-full"
         style={{
           background:
-            "radial-gradient(closest-side, color-mix(in srgb, var(--color-accent) 35%, transparent) 0%, transparent 70%)",
+            "radial-gradient(closest-side, color-mix(in srgb, var(--color-accent) 30%, transparent) 0%, color-mix(in srgb, var(--color-accent) 18%, transparent) 30%, color-mix(in srgb, var(--color-accent) 8%, transparent) 55%, transparent 80%)",
         }}
         initial={isMobile ? { opacity: 0 } : undefined}
         animate={
@@ -120,10 +120,10 @@ function HeroBackground() {
         }}
       />
       <motion.div
-        className="absolute right-[-15%] top-[10%] h-[50%] w-[50%] rounded-full"
+        className="absolute right-[-25%] top-[0%] h-[70%] w-[70%] rounded-full"
         style={{
           background:
-            "radial-gradient(closest-side, color-mix(in srgb, var(--color-accent-dim) 35%, transparent) 0%, transparent 70%)",
+            "radial-gradient(closest-side, color-mix(in srgb, var(--color-accent-dim) 30%, transparent) 0%, color-mix(in srgb, var(--color-accent-dim) 18%, transparent) 30%, color-mix(in srgb, var(--color-accent-dim) 8%, transparent) 55%, transparent 80%)",
         }}
         initial={isMobile ? { opacity: 0 } : undefined}
         animate={
